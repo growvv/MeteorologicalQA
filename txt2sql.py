@@ -34,7 +34,7 @@ def readDataFromFile(filename):
 def txt2sql(filename):
     field = getField(filename)
     data = readDataFromFile(filename)
-    with pymysql.connect(host="localhost", user="root", password="lfr139931", database="weather") as conn:
+    with pymysql.connect(host="localhost", user="root", password="123456", database="weather") as conn:
         cursor = conn.cursor()
        
         for i in range(len(data)):
