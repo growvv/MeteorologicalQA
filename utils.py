@@ -1,4 +1,5 @@
-
+import ipdb 
+dir = './rawData/'
 filenames = ['info_traffic.txt', 'info_weather.txt']
 
 fields = ['traffic', 'weather']
@@ -8,12 +9,13 @@ events = ['交通拥塞', '轻微交通事故', '严重交通事故', '道路积
 
 
 def field2index(field):
-    return fields.index(field)
+    return fields.index(field)+1
 
 def event2index(event):
-    return events.index(event)
+    return events.index(event)+1
 
 def getField(filename):
-    return filename.split('.')[0].split('_')[1]
+    # ipdb.set_trace()
+    return filename.split('/')[2].split('.')[0].split('_')[1]
 
 # print(getField('info_traffic.txt'))

@@ -1,6 +1,7 @@
 import pymysql
+import ipdb
 from utils import field2index, event2index, getField
-from utils import filenames
+from utils import filenames, fields, events, dir
 
 # 预处理一行数据, 分割成
 # event entry
@@ -34,20 +35,53 @@ def readDataFromFile(filename):
 def txt2sql(filename):
     field = getField(filename)
     data = readDataFromFile(filename)
-    with pymysql.connect(host="localhost", user="root", password="123456", database="weather") as conn:
+    with pymysql.connect(host="localhost", user="root", password="123456lfr", database="weather") as conn:
         cursor = conn.cursor()
        
         for i in range(len(data)):
             for event, info in data[i]:
                 try:
-                    cursor.execute("""INSERT INTO entry (field_id, event_id, info) VALUES (%s, %s, %s)""", (field2index(field), event2index(event), info))
+                    cursor.execute("""INSERT INTO infos (field_id, event_id, info) VALUES (%s, %s, %s)""", (field2index(field), event2index(event), info))
                     conn.commit()
                 except:
                     print("Error")
                     conn.rollback()
                     break
 
+def field2sql():
+    with pymysql.connect(host="localhost", user="root", password="123456lfr", database="weather") as conn:
+        cursor = conn.cursor()
+        for field in fields:
+            try:
+                # ipdb.set_trace()
+                cursor.execute("""INSERT INTO fields (name) VALUES (%s)""", field)
+                conn.commit()
+            except:
+                print("Error")
+                conn.rollback()
+                break
+
+    print("成功导入领域种类：", len(fields))
+
+
+def event2sql():
+    with pymysql.connect(host="localhost", user="root", password="123456lfr", database="weather") as conn:
+        cursor = conn.cursor()
+        for event in events:
+            try:
+                cursor.execute("""INSERT INTO events (name) VALUES (%s)""", event)
+                conn.commit()
+            except:
+                print("Error")
+                conn.rollback()
+                break
+    
+    print("成功导入事件种类：", len(events))
 
 if __name__ == '__main__':
     for filename in filenames:
-        txt2sql(filename)
+        txt2sql(dir+filename)
+
+
+    field2sql()
+    event2sql()
