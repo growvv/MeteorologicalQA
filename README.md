@@ -14,6 +14,6 @@
 ```
 
 ## 使用
-将 entry.sql导入mysql数据库即可获得全部语料
+将 sqlData 导入MySQL数据库即可获得全部语料
 
 当然，也可以直接查看rawData
